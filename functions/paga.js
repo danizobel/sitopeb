@@ -35,8 +35,8 @@ export async function onRequestPost(context) {
     const data = await response.json();
 
     // Restituisce l'ID di SumUp al tuo menu.html
-    return new Response(JSON.stringify(data), { 
-      status: response.status, 
+return new Response(JSON.stringify({ checkoutId: data.id }), {
+	  status: response.status, 
       headers: corsHeaders 
     });
 
