@@ -10,6 +10,17 @@
     <script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"></script>
     
     <style>
+	/* Fix specifico per l'input Orario su iPhone/Safari */
+        input[type="time"], input[type="date"] {
+            -webkit-appearance: none; /* Disattiva lo stile prepotente di Apple */
+            -moz-appearance: none;
+            appearance: none;
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+            color-scheme: dark; /* Forza l'iconino e i menu a tendina di iOS ad usare colori chiari (ideale per il tuo sfondo scuro) */
+            font-family: inherit;
+        }
         :root {
             --bg-header: #f8f5f0;
             --bg-dark: #1a0f0f; 
@@ -100,7 +111,7 @@
     <div class="checkout-modal" id="checkout-modal">
         <div class="checkout-content">
             <i class="fa-solid fa-xmark close-modal" onclick="closeCheckout()"></i>
-            <h3>Dati di Consegna</h3>
+            <h3>Dati di ritiro</h3>
             
             <div id="sumup-card-container" style="display: none; background: white; padding: 10px; border-radius: 10px; margin-bottom: 15px;">
                 <div id="sumup-card"></div>
@@ -109,10 +120,10 @@
             <div id="dati-cliente-form">
                 <div class="form-group"><label>Nome e Cognome *</label><input type="text" id="cust-name" required></div>
 				<div class="form-group">
-					<label for="orario-consegna">Orario di ritiro/consegna:</label>
+					<label for="orario-consegna">Orario di ritiro:</label>
 					<input type="time" id="orario-consegna" name="orario" required>
 				</div>
-                <div class="form-group"><label>Info aggiuntive</label><textarea id="cust-notes" rows="2" placeholder="Es. Citofono Rossi"></textarea></div>
+                <div class="form-group"><label>Info aggiuntive</label><textarea id="cust-notes" rows="2" placeholder="Es. Richieste particolari"></textarea></div>
 				<div class="form-group"><small>*Nota: L'ordine sarà pronto in circa 10 minuti dall'invio di questo messaggio. Non siamo responsabili per prodotti consumati freddi in caso di ritardo nel ritiro.</small>
                 <button class="btn-confirm-order" onclick="sendOrderWithDetails()" id="pay-btn">
                     <i class="fa-solid fa-credit-card"></i> Paga con SumUp
@@ -247,7 +258,7 @@
             const orderId = `PB-${firstLetter}${lastLetter}-${randomNum}`;
 
             let cartItems = []; let total = 0; 
-            let text = `*NUOVO ORDINE DELIVERY!* 🍩%0A🆔 *Rif:* ${orderId}%0A%0A👤 *Cliente:* ${name}%0A📍 *Orario:* ${orario}%0A`;
+            let text = `*NUOVO ORDINE!* 🍩%0A🆔 *Rif:* ${orderId}%0A%0A👤 *Cliente:* ${name}%0A📍 *Orario:* ${orario}%0A`;
             if(notes) text += `📝 *Note:* ${notes}%0A`; 
             text += `%0A*RIEPILOGO ORDINE:*%0A`;
 
