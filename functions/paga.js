@@ -1,61 +1,76 @@
-// 1. Questa funzione riceve i dati del carrello (metodo POST)
-export async function onRequestPost(context) {
-  const { env, request } = context;
+export async function onRequest(context) {
+    // 1. Definiamo i permessi CORS per evitare blocchi dal browser
+    const corsHeaders = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+    };
 
-  // Intestazioni per evitare blocchi del browser
-  const corsHeaders = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  };
+    // 2. Risposta di sicurezza "Preflight" obbligatoria per Cloudflare
+    if (context.request.method === "OPTIONS") {
+        return new Response(null, { headers: corsHeaders });
+    }
 
-  try {
-    const body = await request.json();
-    const cartItems = body.items || [];
-    
-    // Calcola il totale
-    let totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    totalAmount = Math.round(totalAmount * 100) / 100;
+    // 3. Blocca richieste che non sono POST
+    if (context.request.method !== "POST") {
+        return new Response("Metodo non consentito", { status: 405, headers: corsHeaders });
+    }
 
-    // Invia la richiesta a SumUp
-    const response = await fetch('https://api.sumup.com/v0.1/checkouts', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.SUMUP_SECRET_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        checkout_reference: `PB-${Date.now()}`,
-        amount: totalAmount,
-        currency: "EUR",
-        pay_to_email: env.SUMUP_EMAIL,
-        description: "Ordine Peter Bun"
-      })
-    });
+    try {
+        const body = await context.request.json();
+        const { orderId, totalAmount, orarioSelezionato, dataOrdine } = body;
+        
+        const slotKey = `${dataOrdine}_${orarioSelezionato}`;
+        const MAX_ORDINI_PER_SLOT = 4; // Cambia questo numero per aumentare/diminuire il limite
+        
+        // Verifica che il Database sia collegato
+        if (!context.env.SLOT_ORARI) {
+            return new Response(JSON.stringify({ 
+                success: false, 
+                error: "Database SLOT_ORARI non collegato. Controlla le impostazioni di Cloudflare." 
+            }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+        }
+        
+        // Controllo disponibilità orario
+        let ordiniAttuali = await context.env.SLOT_ORARI.get(slotKey);
+        ordiniAttuali = ordiniAttuali ? parseInt(ordiniAttuali) : 0;
 
-    const data = await response.json();
+        if (ordiniAttuali >= MAX_ORDINI_PER_SLOT) {
+            return new Response(JSON.stringify({ 
+                success: false, 
+                error: `L'orario ${orarioSelezionato} è pieno. Scegli un altro orario.` 
+            }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+        }
 
-    // Restituisce l'ID di SumUp al tuo menu.html
-return new Response(JSON.stringify({ checkoutId: data.id }), {
-	  status: response.status, 
-      headers: corsHeaders 
-    });
+        // Creazione Crittografia Nexi
+        const amountCents = Math.round(totalAmount * 100); 
+        const divisa = "EUR";
+        const stringToSign = `alias=${context.env.NEXI_ALIAS}&codTrans=${orderId}&divisa=${divisa}&importo=${amountCents}&mac_key=${context.env.NEXI_MAC_KEY}`;
+        
+        const encoder = new TextEncoder();
+        const dataBuffer = encoder.encode(stringToSign);
+        const hashBuffer = await crypto.subtle.digest('SHA-1', dataBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const mac = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { 
-      status: 500, 
-      headers: corsHeaders 
-    });
-  }
-}
+        // Risposta OK al frontend
+        return new Response(JSON.stringify({
+            success: true,
+            nexiParams: {
+                alias: context.env.NEXI_ALIAS,
+                codTrans: orderId,
+                divisa: divisa,
+                importo: amountCents,
+                mac: mac,
+                url: "https://sitolaverabellezz.pages.dev/successo.html", // <-- IMPORTANTE: INSERISCI IL TUO LINK QUI
+                url_back: "https://sitolaverabellezz.pages.dev/errore.html", // <-- IMPORTANTE: INSERISCI IL TUO LINK QUI
+            }
+        }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
 
-// 2. Questa funzione risponde alle verifiche di sicurezza del browser (metodo OPTIONS)
-export async function onRequestOptions() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+    } catch (err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), { 
+            status: 500, 
+            headers: { "Content-Type": "application/json", ...corsHeaders } 
+        });
+    }
 }
