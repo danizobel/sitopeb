@@ -15,6 +15,7 @@
             --bg-dark: #1a0f0f; 
             --bg-choco: #3e2723;
             --accent-gold: #ffc107; 
+            --accent-orange: #ff9800;
             --text-cream: #f8f1e7;
             --text-dark: #3e2723; 
             --text-muted: #bcaaa4;
@@ -23,12 +24,32 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: linear-gradient(to bottom, var(--bg-dark), var(--bg-choco)); color: var(--text-cream); padding-bottom: 120px; min-height: 100vh; }
 
-        /* HEADER */
+        /* HEADER MODIFICATO CON TESTI GRANDI E GRASSETTO */
         header { position: relative; text-align: center; padding: 30px 20px 70px; background: var(--bg-header); overflow: hidden; }
         .header-content { position: relative; z-index: 2; }
         .brand-logo { max-width: 200px; max-height: 120px; margin: 0 auto 10px; display: block; object-fit: contain; mix-blend-mode: multiply; }
         header h1 { font-size: 2.2rem; font-weight: 900; color: var(--text-dark); margin-bottom: 5px; }
-        header p { font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 20px; }
+        
+        /* Stili per i Sottotitoli Hero nel Menu */
+        .hero-title-main {
+            color: var(--text-dark);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .hero-subtitle-action {
+            color: var(--accent-orange);
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
         .choco-wave { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; transform: rotate(180deg); }
         .choco-wave svg { display: block; width: calc(138% + 1.3px); height: 60px; }
         .choco-wave .shape-fill { fill: var(--bg-dark); }
@@ -45,13 +66,15 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .category-title { padding: 35px 5px 10px; font-size: 1.8rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; border-bottom: 1px solid rgba(255, 193, 7, 0.2); margin-bottom: 15px; text-align: center;}
         
-        .menu-item { background-color: var(--card-glass); backdrop-filter: blur(10px); border: 1px solid rgba(255, 193, 7, 0.15); border-radius: 16px; padding: 15px; margin: 15px 0; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
+        .menu-item { background-color: var(--card-glass); backdrop-filter: blur(10px); border: 1px solid rgba(255, 193, 7, 0.15); border-radius: 16px; padding: 15px; margin: 15px 0; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: opacity 0.3s;}
+        .menu-item.coming-soon { opacity: 0.5; filter: grayscale(30%); }
+        
         .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
         .item-name { font-size: 1.15rem; font-weight: 700; color: var(--text-cream); line-height: 1.2; padding-right: 10px;}
-        .item-price { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); white-space: nowrap;}
+        .item-price { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); white-space: nowrap; text-align: right;}
         .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; font-weight: 500; flex-grow: 1;}
         
-        .controls { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 15px; border-top: 1px dashed rgba(255, 193, 7, 0.2); }
+        .controls { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 15px; border-top: 1px dashed rgba(255, 193, 7, 0.2); min-height: 50px; }
         .qty-box { display: flex; align-items: center; gap: 15px; }
         
         .btn-control { background: linear-gradient(145deg, var(--accent-gold), #ffb300); color: #3e2723; border: none; border-radius: 8px; width: 34px; height: 34px; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -65,7 +88,7 @@
         .variant-desc { font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 5px; line-height: 1.4; font-weight: 500;}
         .variant-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; color: var(--text-cream); font-weight: 700; margin-bottom: 5px;}
 
-        /* MODALI (Custom, Recap, Checkout) */
+        /* MODALI */
         .checkout-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
         .checkout-modal.active { display: flex; }
         .checkout-content { background: var(--bg-choco); border: 1px solid var(--accent-gold); border-radius: 20px; width: 100%; max-width: 500px; position: relative; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.5);}
@@ -81,7 +104,7 @@
         .custom-option-left { display: flex; align-items: center; width: 100%; }
         .custom-option-left input { margin-right: 15px; accent-color: var(--accent-gold); transform: scale(1.3); }
 
-        /* LISTA RECAP PIU' CARINA */
+        /* LISTA RECAP */
         .recap-list { 
             background: rgba(0,0,0,0.2); 
             border-radius: 16px; 
@@ -95,7 +118,7 @@
         .recap-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0;}
         .recap-item-info strong { color: var(--accent-gold); font-size: 1.1rem; margin-right: 8px;}
         
-        /* UPSELL CARDS (Griglia Carina) */
+        /* UPSELL CARDS */
         .upsell-container { 
             display: flex;
             overflow-x: auto;
@@ -144,14 +167,15 @@
 
         /* BOX AVVISO CHECKOUT */
         .alert-box {
-            background: rgba(255, 193, 7, 0.1);
+            background: rgba(255, 193, 7, 0.12);
             border: 1px dashed var(--accent-gold);
-            padding: 15px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 16px;
             margin-bottom: 20px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-cream);
-            line-height: 1.5;
+            line-height: 1.6;
+            text-align: left;
         }
 
         /* FOOTER CARRELLO */
@@ -178,7 +202,9 @@
         <div class="header-content">
             <img src="images/logo.png" alt="Peter Bun" class="brand-logo" onerror="this.style.display='none'; document.getElementById('brand-text').style.display='block';">
             <h1 id="brand-text" style="display: none; color: #3e2723;">PETER BUN</h1>
-            <p style="color: #3e2723;">La 1° Paninoteca Dolce d'Italia</p>
+            
+            <h2 class="hero-title-main">La 1° Paninoteca<br>Dolce d'Italia</h2>
+            <h3 class="hero-subtitle-action">Ordina qui e ritira in sede</h3>
         </div>
         <div class="choco-wave"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path></svg></div>
     </header>
@@ -260,8 +286,11 @@
                     </div>
                     
                     <div class="alert-box">
-                        <strong style="color: var(--accent-gold);">⚠️ Attenzione:</strong> Il numero WhatsApp che riceverà l'ordine è un sistema automatico e <u>NON risponde ai messaggi</u> o alle chiamate.<br><br>
-                        <strong style="color: #ff5252;">🚫 Nessun Annullamento:</strong> Una volta completato il pagamento, <u>l'ordine non potrà essere annullato o rimborsato</u>. Il tuo ordine sarà pronto per l'orario scelto. Passa a ritirarlo in negozio (non siamo responsabili per prodotti consumati freddi in caso di tuo ritardo).
+                        <p><i class="fa-brands fa-whatsapp" style="color: var(--accent-gold);"></i> <strong>⚠️ ATTENZIONE ORDINI AUTOMATICI:</strong> Il numero WhatsApp che riceverà la comanda è un sistema automatico. <u>NON risponde ai messaggi o alle chiamate telefoniche</u>.</p>
+                        <br>
+                        <p><i class="fa-solid fa-ban" style="color: #ff5252;"></i> <strong>🚫 NESSUN ANNULLAMENTO:</strong> Una volta completato il pagamento su SumUp, l'ordine è confermato e <u>NON potrà essere annullato o rimborsato</u>.</p>
+                        <br>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Passa a ritirarlo in negozio per l'orario scelto (non siamo responsabili per prodotti consumati freddi in caso di tuo ritardo).</p>
                     </div>
                     
                     <button class="btn-confirm-order" onclick="sendOrderWithDetails()" id="pay-btn">
@@ -273,23 +302,20 @@
     </div>
 
     <script>
-        // STRUTTURA MENU ESATTA RICHIESTA PER PETER BUN
-        const standardPrice = 4.50; // Prezzo base per i dolci
-        
-        // I 9 gusti standard
+        // ⚠️ PREZZI DISTINTI PER BUN E CREPES ⚠️
         const gustiBase = [
-            { name: "Nut & White", desc: "Cioccolato Bianco, Nocciolata" },
-            { name: "Nicolino", desc: "Crema al Latte, Confettura d'Albicocche" },
-            { name: "Cereali", desc: "Crema Kinder, Crema al Latte, Snack Kinder Cereali" },
-            { name: "Paradiso", desc: "Nocciolata, Crema al Latte, Kinder Paradiso" },
-            { name: "Pinguì", desc: "Cioccolato Bianco, Nocciolata, Kinder Pinguì" },
-            { name: "Pistallato", desc: "Crema al Pistacchio, Cioccolato Fondente" },
-            { name: "Americano", desc: "Burro d'Arachidi, Confettura alle Ciliegie" },
-            { name: "Nutella", desc: "Crema Nutella Classica" },
-            { name: "Kinder", desc: "Crema Kinder Classica" }
+            { name: "Nut & White", desc: "Cioccolato Bianco, Nocciolata", priceBun: 2.70, priceCrepe: 3.00 },
+            { name: "Nicolino", desc: "Crema al Latte, Confettura d'Albicocche", priceBun: 2.90, priceCrepe: 3.20 },
+            { name: "Cereali", desc: "Crema Kinder, Crema al Latte, Snack Kinder Cereali", priceBun: 4.40, priceCrepe: 4.70 },
+            { name: "Paradiso", desc: "Nocciolata, Crema al Latte, Kinder Paradiso", priceBun: 4.60, priceCrepe: 4.90 },
+            { name: "Pinguì", desc: "Cioccolato Bianco, Nocciolata, Kinder Pinguì", priceBun: 5.00, priceCrepe: 5.30 },
+            { name: "Pistallato", desc: "Crema al Pistacchio, Cioccolato Fondente", priceBun: 3.50, priceCrepe: 3.80 },
+            { name: "Americano", desc: "Burro d'Arachidi, Confettura alle Ciliegie", priceBun: 4.30, priceCrepe: 3.90 },
+            { name: "Nutella", desc: "Crema Nutella Classica", priceBun: 2.80, priceCrepe: 3.10 },
+            { name: "Kinder", desc: "Crema Kinder Classica", priceBun: 2.70, priceCrepe: 3.00 }
         ];
 
-        // Generazione categorie dinamica
+        // Generazione categorie dinamica (I Peter Sandwich sono settati a 0€ e comingSoon: true)
         const menuData = [
             {
                 id: "peter-bun",
@@ -298,7 +324,8 @@
                     id: 100 + index, 
                     name: `Bun ${g.name}`, 
                     desc: g.desc, 
-                    price: standardPrice
+                    price: g.priceBun,
+                    comingSoon: false
                 }))
             },
             {
@@ -308,7 +335,8 @@
                     id: 200 + index, 
                     name: `Crepes ${g.name}`, 
                     desc: g.desc, 
-                    price: standardPrice
+                    price: g.priceCrepe,
+                    comingSoon: false
                 }))
             },
             {
@@ -318,16 +346,17 @@
                     id: 300 + index, 
                     name: `Sandwich ${g.name}`, 
                     desc: g.desc, 
-                    price: standardPrice
+                    price: 0,
+                    comingSoon: true 
                 }))
             },
             {
                 id: "bevande",
                 category: "Bevande",
                 items: [
-                    { id: 400, name: "Coca-Cola 33cl", desc: "In lattina", price: 2.00 },
-                    { id: 401, name: "Acqua Naturale 50cl", desc: "In bottiglia", price: 1.30 },
-                    { id: 402, name: "Acqua Frizzante 50cl", desc: "In bottiglia", price: 1.30 }
+                    { id: 400, name: "Coca-Cola 33cl", desc: "In lattina", price: 2.00, comingSoon: false },
+                    { id: 401, name: "Acqua Naturale 50cl", desc: "In bottiglia", price: 1.30, comingSoon: false },
+                    { id: 402, name: "Acqua Frizzante 50cl", desc: "In bottiglia", price: 1.30, comingSoon: false }
                 ]
             }
         ];
@@ -338,7 +367,7 @@
 
         function buildItemMap() {
             menuData.forEach(cat => cat.items.forEach(i => { 
-                i.categoryId = cat.id; // Mi serve per capire se è una bevanda
+                i.categoryId = cat.id; 
                 itemMap[i.id] = i; 
             }));
         }
@@ -373,24 +402,32 @@
                 const sectionDiv = document.createElement('div'); sectionDiv.className = 'category-section'; sectionDiv.id = `cat-${category.id}`;
                 sectionDiv.innerHTML = `<h2 class="category-title">${category.category}</h2>`;
                 category.items.forEach(item => {
-                    // Nascondi tasto personalizza se è una bevanda
-                    let customBtn = category.id === 'bevande' ? '' : `<button class="btn-custom" onclick="openCustomModal(${item.id})"><i class="fa-solid fa-pen"></i> Personalizza</button>`;
                     
+                    let customBtn = (category.id === 'bevande' || item.comingSoon) ? '' : `<button class="btn-custom" onclick="openCustomModal(${item.id})"><i class="fa-solid fa-pen"></i> Personalizza</button>`;
+                    
+                    let priceDisplay = item.comingSoon ? `<span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Presto in Arrivo</span>` : `${item.price.toFixed(2).replace('.',',')}€`;
+                    
+                    let controlsHtml = item.comingSoon ? '' : `
+                        ${customBtn}
+                        <div style="flex-grow: 1;"></div>
+                        <div class="qty-box">
+                            <button class="btn-control" onclick="handleRemoveClick('${item.id}')"><i class="fa-solid fa-minus"></i></button>
+                            <span class="qty" id="qty-${item.id}">0</span>
+                            <button class="btn-control" onclick="handleAddClick('${item.id}')"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    `;
+
+                    let cardClass = item.comingSoon ? 'menu-item coming-soon' : 'menu-item';
+
                     sectionDiv.innerHTML += `
-                        <div class="menu-item">
+                        <div class="${cardClass}">
                             <div class="item-header">
                                 <div class="item-name">${item.name}</div>
-                                <div class="item-price">${item.price.toFixed(2).replace('.',',')}€</div>
+                                <div class="item-price">${priceDisplay}</div>
                             </div>
                             <p class="item-desc">${item.desc}</p>
                             <div class="controls">
-                                ${customBtn}
-                                <div style="flex-grow: 1;"></div>
-                                <div class="qty-box">
-                                    <button class="btn-control" onclick="handleRemoveClick('${item.id}')"><i class="fa-solid fa-minus"></i></button>
-                                    <span class="qty" id="qty-${item.id}">0</span>
-                                    <button class="btn-control" onclick="handleAddClick('${item.id}')"><i class="fa-solid fa-plus"></i></button>
-                                </div>
+                                ${controlsHtml}
                             </div>
                             <div id="variants-${item.id}"></div>
                         </div>`;
@@ -399,8 +436,8 @@
             });
         }
 
-        // --- GESTIONE CARRELLO E QUANTITA' ---
         function handleAddClick(id) {
+            if(itemMap[id].comingSoon) return;
             updateQty(id, 1);
         }
 
@@ -464,7 +501,6 @@
             if (totalItems > 0) footer.classList.add('visible'); else footer.classList.remove('visible');
         }
 
-        // --- PERSONALIZZAZIONE RIMOZIONE INGREDIENTI ---
         function openCustomModal(id) {
             currentCustomItemId = id;
             const item = itemMap[id];
@@ -542,12 +578,10 @@
             closeCustomModal();
         }
 
-        // --- RECAP E LOGICA UPSELL GOLOSO ---
         function openRecap() {
             const recapContainer = document.getElementById('recap-list-container');
             recapContainer.innerHTML = '';
             
-            // 1. Inserisci gli items nel riepilogo
             for(let id in cart) {
                 if (cart[id] > 0 && itemMap[id]) {
                     let item = itemMap[id];
@@ -563,7 +597,6 @@
                 }
             }
 
-            // 2. Genera Upsell (Logica Bevande intelligente)
             const upsellContainer = document.getElementById('upsell-container');
             upsellContainer.innerHTML = '';
             
@@ -571,12 +604,13 @@
             let hasDrink = idsInCart.some(id => itemMap[id] && itemMap[id].categoryId === 'bevande');
 
             let allBaseItems = [];
-            menuData.forEach(cat => cat.items.forEach(i => allBaseItems.push(i)));
+            menuData.forEach(cat => cat.items.forEach(i => {
+                if(!i.comingSoon) allBaseItems.push(i);
+            }));
             
             let availableUpsells = allBaseItems.filter(i => !idsInCart.includes(i.id));
             let selectedUpsells = [];
 
-            // Se non c'è una bevanda nel carrello, la prima proposta è una bevanda a caso
             if (!hasDrink) {
                 let drinks = availableUpsells.filter(i => i.categoryId === 'bevande');
                 if (drinks.length > 0) {
@@ -585,7 +619,6 @@
                 }
             }
 
-            // Aggiungi dolci a caso finché non arriviamo a 3 consigli totali
             let nonDrinks = availableUpsells.filter(i => i.categoryId !== 'bevande' && !selectedUpsells.includes(i));
             nonDrinks.sort(() => 0.5 - Math.random());
 
@@ -593,7 +626,6 @@
                 selectedUpsells.push(nonDrinks.pop());
             }
             
-            // Stampa le card dell'Upsell
             selectedUpsells.forEach(item => {
                 upsellContainer.innerHTML += `
                     <div class="upsell-card">
@@ -623,19 +655,16 @@
             document.getElementById('checkout-modal').classList.remove('active'); 
         }
 
-        // --- GESTIONE ORARI (Solo da ora in poi, ogni 15 min) ---
         function popolaOrari() {
             const select = document.getElementById('orario-consegna');
             select.innerHTML = '';
             
             let now = new Date();
-            // Aggiungiamo 15 minuti di tolleranza base per la preparazione
             now.setMinutes(now.getMinutes() + 15);
             
             let h = now.getHours();
             let m = now.getMinutes();
             
-            // Arrotonda al prossimo slot di 15 minuti
             let remainder = m % 15;
             if (remainder !== 0) {
                 m = m + (15 - remainder);
@@ -643,7 +672,6 @@
             if (m >= 60) { m -= 60; h++; }
 
             let slotAggiunti = 0;
-            // Genera slot per le prossime 3 ore
             for(let i=0; i<12; i++) {
                 if (h > 23) break; 
                 
@@ -663,7 +691,6 @@
             }
         }
 
-        // --- INVIO A SUMUP (PAGA.JS) ---
         async function sendOrderWithDetails() {
             const name = document.getElementById('cust-name').value.trim();
             const orario = document.getElementById('orario-consegna').value;
@@ -705,7 +732,6 @@
             btn.disabled = true;
 
             try {
-                // Chiamata al tuo backend /paga
                 const response = await fetch("/paga", {
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' },
