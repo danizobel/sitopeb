@@ -142,6 +142,18 @@
         .btn-confirm-order { width: 100%; background: linear-gradient(45deg, var(--accent-gold), #ff9800); color: #3e2723; border: none; padding: 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255,193,7,0.3);}
         .btn-confirm-order:disabled { opacity: 0.7; cursor: not-allowed; }
 
+        /* BOX AVVISO CHECKOUT */
+        .alert-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px dashed var(--accent-gold);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--text-cream);
+            line-height: 1.5;
+        }
+
         /* FOOTER CARRELLO */
         .cart-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 15, 15, 0.98); padding: 15px 20px 20px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--accent-gold); transform: translateY(120%); transition: transform 0.3s ease; z-index: 1000; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);}
         .cart-footer.visible { transform: translateY(0); }
@@ -246,9 +258,11 @@
                         <label>Note per noi</label>
                         <textarea id="cust-notes" rows="2" placeholder="Es. Sono intollerante a..."></textarea>
                     </div>
-                    <small style="display:block; color:var(--text-muted); font-size:0.75rem; margin-bottom:15px; line-height: 1.4;">
-                        *Il tuo ordine sarà preparato per l'orario scelto. Passa a ritirarlo in negozio. Non siamo responsabili per prodotti consumati freddi in caso di tuo ritardo.
-                    </small>
+                    
+                    <div class="alert-box">
+                        <strong style="color: var(--accent-gold);">⚠️ Attenzione:</strong> Il numero WhatsApp che riceverà l'ordine è un sistema automatico e <u>NON risponde ai messaggi</u> o alle chiamate.<br><br>
+                        <strong style="color: #ff5252;">🚫 Nessun Annullamento:</strong> Una volta completato il pagamento, <u>l'ordine non potrà essere annullato o rimborsato</u>. Il tuo ordine sarà pronto per l'orario scelto. Passa a ritirarlo in negozio (non siamo responsabili per prodotti consumati freddi in caso di tuo ritardo).
+                    </div>
                     
                     <button class="btn-confirm-order" onclick="sendOrderWithDetails()" id="pay-btn">
                         <i class="fa-solid fa-credit-card"></i> Paga Ora (SumUp)
@@ -691,7 +705,7 @@
             btn.disabled = true;
 
             try {
-                // Chiamata al tuo backend /paga per farti dare il token di SumUp
+                // Chiamata al tuo backend /paga
                 const response = await fetch("/paga", {
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' },
