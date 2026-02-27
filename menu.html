@@ -4,25 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Peter Bun - Menu Digitale Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"></script>
     
     <style>
-	/* Fix specifico per l'input Orario su iPhone/Safari */
-        input[type="time"], input[type="date"] {
-            -webkit-appearance: none; /* Disattiva lo stile prepotente di Apple */
-            -moz-appearance: none;
-            appearance: none;
-            width: 100%;
-            display: block;
-            box-sizing: border-box;
-            color-scheme: dark; /* Forza l'iconino e i menu a tendina di iOS ad usare colori chiari (ideale per il tuo sfondo scuro) */
-            font-family: inherit;
-        }
         :root {
-            --bg-header: #f8f5f0;
+            --bg-header: #FFF1D6;
             --bg-dark: #1a0f0f; 
             --bg-choco: #3e2723;
             --accent-gold: #ffc107; 
@@ -35,7 +24,7 @@
         body { background: linear-gradient(to bottom, var(--bg-dark), var(--bg-choco)); color: var(--text-cream); padding-bottom: 120px; min-height: 100vh; }
 
         /* HEADER */
-        header { position: relative; text-align: center; padding: 30px 20px 70px; background: #FFF1D6 ; overflow: hidden; }
+        header { position: relative; text-align: center; padding: 30px 20px 70px; background: var(--bg-header); overflow: hidden; }
         .header-content { position: relative; z-index: 2; }
         .brand-logo { max-width: 200px; max-height: 120px; margin: 0 auto 10px; display: block; object-fit: contain; mix-blend-mode: multiply; }
         header h1 { font-size: 2.2rem; font-weight: 900; color: var(--text-dark); margin-bottom: 5px; }
@@ -50,43 +39,125 @@
         .filter-btn { background: rgba(255, 255, 255, 0.05); color: var(--text-cream); border: 1px solid rgba(255, 193, 7, 0.3); padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; white-space: nowrap; cursor: pointer; transition: all 0.3s ease; }
         .filter-btn.active { background: var(--accent-gold); color: var(--bg-dark); border-color: var(--accent-gold); box-shadow: 0 2px 10px rgba(255, 193, 7, 0.3); }
         
-        .menu-container { padding: 0 15px; }
+        .menu-container { padding: 0 15px; max-width: 1000px; margin: 0 auto;}
         .category-section { animation: fadeIn 0.4s ease-in-out; display: block; }
-        .category-section.hidden { display: none; }
+        .category-section.hidden { display: none !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .category-title { padding: 25px 5px 10px; font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; border-bottom: 1px solid rgba(255, 193, 7, 0.2); margin-bottom: 15px; }
+        .category-title { padding: 35px 5px 10px; font-size: 1.8rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; border-bottom: 1px solid rgba(255, 193, 7, 0.2); margin-bottom: 15px; text-align: center;}
         
-        .menu-item { background-color: var(--card-glass); backdrop-filter: blur(10px); border: 1px solid rgba(255, 193, 7, 0.15); border-radius: 16px; padding: 12px; margin: 15px 0; display: flex; flex-direction: column; }
-        .item-main-content { display: flex; gap: 15px; }
-        .item-image-container { flex-shrink: 0; width: 90px; height: 90px; border-radius: 12px; overflow: hidden; background-color: var(--bg-choco); border: 1px solid rgba(255,193,7,0.3); }
-        .item-image { width: 100%; height: 100%; object-fit: cover; }
-        .item-text-content { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
-        .item-name { font-size: 1.1rem; font-weight: 700; color: var(--text-cream); line-height: 1.2; margin-bottom: 4px; }
-        .item-price { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); margin-bottom: 6px; }
-        .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.3; margin-bottom: 8px; }
+        .menu-item { background-color: var(--card-glass); backdrop-filter: blur(10px); border: 1px solid rgba(255, 193, 7, 0.15); border-radius: 16px; padding: 15px; margin: 15px 0; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
+        .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+        .item-name { font-size: 1.15rem; font-weight: 700; color: var(--text-cream); line-height: 1.2; padding-right: 10px;}
+        .item-price { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); white-space: nowrap;}
+        .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; font-weight: 500; flex-grow: 1;}
         
-        .controls { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 193, 7, 0.1); }
-        .btn-control { background: linear-gradient(145deg, var(--accent-gold), #ffb300); color: #3e2723; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .controls { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 15px; border-top: 1px dashed rgba(255, 193, 7, 0.2); }
+        .qty-box { display: flex; align-items: center; gap: 15px; }
+        
+        .btn-control { background: linear-gradient(145deg, var(--accent-gold), #ffb300); color: #3e2723; border: none; border-radius: 8px; width: 34px; height: 34px; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .qty { font-weight: 700; font-size: 1.2rem; min-width: 25px; text-align: center; }
 
+        .btn-custom { background: transparent; color: var(--accent-gold); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-custom:active { background: rgba(255, 193, 7, 0.1); }
+        
+        /* VARIANTI SOTTO LA CARD */
+        .variant-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-top: 12px; border-left: 3px solid var(--accent-gold); border: 1px solid rgba(255,193,7,0.1);}
+        .variant-desc { font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 5px; line-height: 1.4; font-weight: 500;}
+        .variant-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; color: var(--text-cream); font-weight: 700; margin-bottom: 5px;}
+
+        /* MODALI (Custom, Recap, Checkout) */
+        .checkout-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
+        .checkout-modal.active { display: flex; }
+        .checkout-content { background: var(--bg-choco); border: 1px solid var(--accent-gold); border-radius: 20px; width: 100%; max-width: 500px; position: relative; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.5);}
+        
+        .modal-header { padding: 20px 25px; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,193,7,0.2); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;}
+        .modal-header h3 { color: var(--accent-gold); margin: 0; font-weight: 800; font-size: 1.3rem; }
+        .close-modal { color: var(--text-muted); font-size: 1.6rem; cursor: pointer; padding: 5px;}
+        .modal-body { padding: 20px 25px; }
+
+        /* LISTA OPZIONI PERSONALIZZAZIONE */
+        .custom-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+        .custom-option-card { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; color: var(--text-cream); background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,193,7,0.2); font-weight: 500; cursor: pointer;}
+        .custom-option-left { display: flex; align-items: center; width: 100%; }
+        .custom-option-left input { margin-right: 15px; accent-color: var(--accent-gold); transform: scale(1.3); }
+
+        /* LISTA RECAP PIU' CARINA */
+        .recap-list { 
+            background: rgba(0,0,0,0.2); 
+            border-radius: 16px; 
+            padding: 15px; 
+            border: 1px solid rgba(255,193,7,0.15); 
+            max-height: 220px; 
+            overflow-y: auto;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .recap-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,193,7,0.1); padding-bottom: 12px;}
+        .recap-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0;}
+        .recap-item-info strong { color: var(--accent-gold); font-size: 1.1rem; margin-right: 8px;}
+        
+        /* UPSELL CARDS (Griglia Carina) */
+        .upsell-container { 
+            display: flex;
+            overflow-x: auto;
+            gap: 12px; 
+            padding-bottom: 10px; 
+            margin-top: 15px;
+        }
+        .upsell-container::-webkit-scrollbar { display: none; }
+        .upsell-card { 
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.02)); 
+            border: 1px solid rgba(255, 193, 7, 0.3); 
+            padding: 15px 12px; 
+            border-radius: 16px; 
+            min-width: 140px;
+            flex-shrink: 0;
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .upsell-card h4 { font-size: 0.9rem; color: var(--text-cream); margin-bottom: 5px; font-weight: 700; line-height: 1.2; }
+        .upsell-card p { font-size: 1.05rem; color: var(--accent-gold); font-weight: 800; margin-bottom: 12px; }
+        .btn-upsell { 
+            background: transparent; 
+            color: var(--accent-gold); 
+            border: 1px solid var(--accent-gold); 
+            padding: 8px; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .btn-upsell:active { background: var(--accent-gold); color: var(--bg-choco); }
+
+        /* FORM CHECKOUT */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-cream); margin-bottom: 5px; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,193,7,0.3); color: var(--text-cream); outline: none; font-size: 1rem; appearance: none; font-family: 'Poppins', sans-serif;}
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-gold); background: rgba(255,255,255,0.1); }
+        .form-group select option { background: var(--bg-choco); color: var(--text-cream); }
+        
+        .btn-confirm-order { width: 100%; background: linear-gradient(45deg, var(--accent-gold), #ff9800); color: #3e2723; border: none; padding: 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255,193,7,0.3);}
+        .btn-confirm-order:disabled { opacity: 0.7; cursor: not-allowed; }
+
         /* FOOTER CARRELLO */
-        .cart-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(30, 20, 20, 0.98); padding: 15px 20px 20px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--accent-gold); transform: translateY(120%); transition: transform 0.3s ease; z-index: 1000; border-radius: 20px 20px 0 0; }
+        .cart-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 15, 15, 0.98); padding: 15px 20px 20px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--accent-gold); transform: translateY(120%); transition: transform 0.3s ease; z-index: 1000; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);}
         .cart-footer.visible { transform: translateY(0); }
         .cart-total { font-size: 1.3rem; font-weight: 900; color: var(--accent-gold); }
         .cart-total span { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-        .btn-checkout { background: linear-gradient(45deg, #25D366, #128C7E); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .btn-checkout { background: linear-gradient(45deg, var(--accent-gold), #ff9800); color: #3e2723; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(255,193,7,0.3);}
 
-        /* MODAL CHECKOUT */
-        .checkout-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .checkout-modal.active { display: flex; }
-        .checkout-content { background: var(--bg-choco); border: 1px solid var(--accent-gold); border-radius: 20px; padding: 25px 20px; width: 100%; max-width: 400px; position: relative; max-height: 90vh; overflow-y: auto; }
-        .close-modal { position: absolute; top: 15px; right: 20px; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
-        .checkout-content h3 { color: var(--accent-gold); margin-bottom: 15px; font-weight: 800; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.85rem; color: var(--text-cream); margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,193,7,0.3); color: var(--text-cream); outline: none; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-gold); }
-        .btn-confirm-order { width: 100%; background: linear-gradient(45deg, #ffc107, #ff9800); color: #3e2723; border: none; padding: 15px; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        /* MEDIA QUERIES PER PC DESKTOP E TABLET */
+        @media (min-width: 768px) {
+            .filters-container { justify-content: center; flex-wrap: wrap; overflow-x: visible; }
+            .category-section { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .category-title { grid-column: span 2; }
+            .menu-item { margin: 0; height: 100%; }
+            .upsell-container { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; justify-content: center;}
+            .upsell-card { min-width: auto; }
+        }
     </style>
 </head>
 <body>
@@ -94,8 +165,8 @@
     <header>
         <div class="header-content">
             <img src="images/logo.png" alt="Peter Bun" class="brand-logo" onerror="this.style.display='none'; document.getElementById('brand-text').style.display='block';">
-            <h1 id="brand-text" style="display: none;">PETER BUN</h1>
-            <p>La 1° Paninoteca Dolce d'Italia</p>
+            <h1 id="brand-text" style="display: none; color: #3e2723;">PETER BUN</h1>
+            <p style="color: #3e2723;">La 1° Paninoteca Dolce d'Italia</p>
         </div>
         <div class="choco-wave"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path></svg></div>
     </header>
@@ -105,75 +176,164 @@
 
     <div class="cart-footer" id="cart-footer">
         <div class="cart-total"><span>Totale Ordine</span><div id="total-price">0,00 €</div></div>
-        <button class="btn-checkout" onclick="openCheckout()"><i class="fa-solid fa-cart-shopping"></i> Checkout</button>
+        <button class="btn-checkout" onclick="openRecap()"><i class="fa-solid fa-cart-shopping"></i> Checkout</button>
     </div>
 
-    <div class="checkout-modal" id="checkout-modal">
+    <div class="checkout-modal" id="custom-modal" onclick="if(event.target === this) closeCustomModal()">
         <div class="checkout-content">
-            <i class="fa-solid fa-xmark close-modal" onclick="closeCheckout()"></i>
-            <h3>Dati di ritiro</h3>
-            
-            <div id="sumup-card-container" style="display: none; background: white; padding: 10px; border-radius: 10px; margin-bottom: 15px;">
-                <div id="sumup-card"></div>
+            <div class="modal-header">
+                <h3 id="custom-title" style="font-size: 1.1rem; line-height: 1.2;">Personalizza</h3>
+                <i class="fa-solid fa-xmark close-modal" onclick="closeCustomModal()"></i>
             </div>
-
-            <div id="dati-cliente-form">
-                <div class="form-group"><label>Nome e Cognome *</label><input type="text" id="cust-name" required></div>
-				<div class="form-group">
-					<label for="orario-consegna">Orario di ritiro:</label>
-					<input type="time" id="orario-consegna" name="orario" required>
-				</div>
-                <div class="form-group"><label>Info aggiuntive</label><textarea id="cust-notes" rows="2" placeholder="Es. Richieste particolari"></textarea></div>
-				<div class="form-group"><small>*Nota: L'ordine sarà pronto in circa 10 minuti dall'invio di questo messaggio. Non siamo responsabili per prodotti consumati freddi in caso di ritardo nel ritiro.</small>
-                <button class="btn-confirm-order" onclick="sendOrderWithDetails()" id="pay-btn">
-                    <i class="fa-solid fa-credit-card"></i> Paga con SumUp
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Seleziona gli ingredienti che desideri RIMUOVERE dal prodotto.</p>
+                <div class="custom-group" id="custom-dynamic-sections">
+                    </div>
+            </div>
+            <div style="padding: 20px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,193,7,0.2); position: sticky; bottom: 0;">
+                <button class="btn-confirm-order" onclick="addCustomItemToCart()">
+                    <i class="fa-solid fa-check"></i> Fatto, Aggiungi
                 </button>
             </div>
         </div>
     </div>
 
+    <div class="checkout-modal" id="recap-modal" onclick="if(event.target === this) closeRecap()">
+        <div class="checkout-content">
+            <div class="modal-header">
+                <h3>Il tuo Ordine</h3>
+                <i class="fa-solid fa-xmark close-modal" onclick="closeRecap()"></i>
+            </div>
+            <div class="modal-body">
+                <div class="recap-list" id="recap-list-container">
+                    </div>
+                
+                <h4 style="color: var(--accent-gold); margin-top: 25px; font-size: 1.1rem; font-weight: 800;">Ti manca qualcosa?</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Abbiamo pensato che questi potessero piacerti:</p>
+                
+                <div class="upsell-container" id="upsell-container">
+                    </div>
+            </div>
+            <div style="padding: 20px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,193,7,0.2); position: sticky; bottom: 0;">
+                <button class="btn-confirm-order" onclick="proceedToCheckout()">
+                    Procedi al Ritiro <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-modal" id="checkout-modal" onclick="if(event.target === this) closeCheckout()">
+        <div class="checkout-content">
+            <div class="modal-header">
+                <h3>Dati di Ritiro</h3>
+                <i class="fa-solid fa-xmark close-modal" onclick="closeCheckout()"></i>
+            </div>
+            <div class="modal-body">
+                <div id="sumup-card-container" style="display: none; background: white; padding: 10px; border-radius: 10px; margin-bottom: 15px;">
+                    <div id="sumup-card"></div>
+                </div>
+
+                <div id="dati-cliente-form">
+                    <div class="form-group">
+                        <label>Nome e Cognome *</label>
+                        <input type="text" id="cust-name" required placeholder="Inserisci il tuo nome">
+                    </div>
+                    <div class="form-group">
+                        <label>Orario di ritiro al locale *</label>
+                        <select id="orario-consegna" name="orario" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Note per noi</label>
+                        <textarea id="cust-notes" rows="2" placeholder="Es. Sono intollerante a..."></textarea>
+                    </div>
+                    <small style="display:block; color:var(--text-muted); font-size:0.75rem; margin-bottom:15px; line-height: 1.4;">
+                        *Il tuo ordine sarà preparato per l'orario scelto. Passa a ritirarlo in negozio. Non siamo responsabili per prodotti consumati freddi in caso di tuo ritardo.
+                    </small>
+                    
+                    <button class="btn-confirm-order" onclick="sendOrderWithDetails()" id="pay-btn">
+                        <i class="fa-solid fa-credit-card"></i> Paga Ora (SumUp)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // DATI COMPLETI DEL MENU
+        // STRUTTURA MENU ESATTA RICHIESTA PER PETER BUN
+        const standardPrice = 4.50; // Prezzo base per i dolci
+        
+        // I 9 gusti standard
+        const gustiBase = [
+            { name: "Nut & White", desc: "Cioccolato Bianco, Nocciolata" },
+            { name: "Nicolino", desc: "Crema al Latte, Confettura d'Albicocche" },
+            { name: "Cereali", desc: "Crema Kinder, Crema al Latte, Snack Kinder Cereali" },
+            { name: "Paradiso", desc: "Nocciolata, Crema al Latte, Kinder Paradiso" },
+            { name: "Pinguì", desc: "Cioccolato Bianco, Nocciolata, Kinder Pinguì" },
+            { name: "Pistallato", desc: "Crema al Pistacchio, Cioccolato Fondente" },
+            { name: "Americano", desc: "Burro d'Arachidi, Confettura alle Ciliegie" },
+            { name: "Nutella", desc: "Crema Nutella Classica" },
+            { name: "Kinder", desc: "Crema Kinder Classica" }
+        ];
+
+        // Generazione categorie dinamica
         const menuData = [
             {
-                id: "classici",
-                category: "I Classici",
-                items: [
-                    { id: 1, name: "Peter Bun Nutella", desc: "La classica e inimitabile crema Nutella", price: 1, image: "images/nutella.jpg" },
-                    { id: 2, name: "Peter Bun Pistacchio", desc: "Crema artigianale al pistacchio", price: 4.20, image: "images/pistacchio.jpg" },
-                    { id: 3, name: "Peter Bun Crema al Latte", desc: "Soffice crema al latte", price: 4.20, image: "images/latte.jpg" },
-                    { id: 4, name: "Peter Bun Pan di Stelle", desc: "Crema Pan di Stelle con granella", price: 4.20, image: "images/stelle.jpg" },
-                    { id: 5, name: "Peter Bun Caramello Salato", desc: "Crema al caramello salato", price: 4.20, image: "images/caramello.jpg" },
-                    { id: 6, name: "Peter Bun Dubai Choc", desc: "Crema Dubai chocolate croccante", price: 4.20, image: "images/dubai.jpg" },
-                    { id: 7, name: "Peter Bun Lotus", desc: "Crema biscotto Lotus Biscoff", price: 4.20, image: "images/lotus.jpg" },
-                    { id: 8, name: "Peter Bun Arachidi", desc: "Crema al burro d'arachidi", price: 4.20, image: "images/arachidi.jpg" }
-                ]
+                id: "peter-bun",
+                category: "Peter Bun",
+                items: gustiBase.map((g, index) => ({
+                    id: 100 + index, 
+                    name: `Bun ${g.name}`, 
+                    desc: g.desc, 
+                    price: standardPrice
+                }))
             },
             {
-                id: "consigliati",
-                category: "I Consigliati",
-                items: [
-                    { id: 9, name: "Peter Bun Nicolino", desc: "Crema al latte e confettura d'albicocca.", price: 5.10, image: "images/nicolino.jpg" },
-                    { id: 10, name: "Peter Bun Pinguì", desc: "Nutella, cocco e barretta Kinder Pinguì", price: 6.00, image: "images/pingui.jpg" },
-                    { id: 11, name: "Peter Bun Dulotus", desc: "Dubai chocolate e crema Lotus", price: 5.60, image: "images/dulotus.jpg" },
-                    { id: 12, name: "Dolce e Salato", desc: "Crema Tiramisù e Caramello Salato", price: 5.40, image: "images/dolcesalato.jpg" },
-                    { id: 13, name: "Peter Bun Paradiso", desc: "Nutella, crema al latte, Kinder Paradiso", price: 5.20, image: "images/paradiso.jpg" },
-                    { id: 14, name: "Menù Tris Kinder", desc: "1 Pinguì, 1 Paradiso e 1 Fetta al latte.", price: 12.90, image: "images/tris.jpg" }
-                ]
+                id: "peter-crepes",
+                category: "Peter Crepes",
+                items: gustiBase.map((g, index) => ({
+                    id: 200 + index, 
+                    name: `Crepes ${g.name}`, 
+                    desc: g.desc, 
+                    price: standardPrice
+                }))
+            },
+            {
+                id: "peter-sandwich",
+                category: "Peter Sandwich",
+                items: gustiBase.map((g, index) => ({
+                    id: 300 + index, 
+                    name: `Sandwich ${g.name}`, 
+                    desc: g.desc, 
+                    price: standardPrice
+                }))
             },
             {
                 id: "bevande",
                 category: "Bevande",
                 items: [
-                    { id: 15, name: "Coca-Cola 33cl", desc: "In lattina", price: 2.00, image: "images/coca.jpg" },
-                    { id: 16, name: "Acqua 50cl", desc: "Naturale o Frizzante in bottiglia", price: 1.30, image: "images/acqua.jpg" }
+                    { id: 400, name: "Coca-Cola 33cl", desc: "In lattina", price: 2.00 },
+                    { id: 401, name: "Acqua Naturale 50cl", desc: "In bottiglia", price: 1.30 },
+                    { id: 402, name: "Acqua Frizzante 50cl", desc: "In bottiglia", price: 1.30 }
                 ]
             }
         ];
 
         let cart = {};
+        let itemMap = {};
+        let currentCustomItemId = null;
 
-        function initApp() { renderFilters(); renderMenu(); }
+        function buildItemMap() {
+            menuData.forEach(cat => cat.items.forEach(i => { 
+                i.categoryId = cat.id; // Mi serve per capire se è una bevanda
+                itemMap[i.id] = i; 
+            }));
+        }
+
+        function initApp() { 
+            buildItemMap();
+            renderFilters(); 
+            renderMenu(); 
+        }
 
         function renderFilters() {
             const filterContainer = document.getElementById('filters-container');
@@ -190,7 +350,7 @@
             document.querySelectorAll('.category-section').forEach(section => {
                 if (categoryId === 'all' || section.id === `cat-${categoryId}`) section.classList.remove('hidden'); else section.classList.add('hidden');
             });
-            window.scrollTo({ top: document.getElementById('filters-container').offsetTop, behavior: 'smooth' });
+            window.scrollTo({ top: document.getElementById('filters-container').offsetTop - 10, behavior: 'smooth' });
         }
 
         function renderMenu() {
@@ -199,97 +359,343 @@
                 const sectionDiv = document.createElement('div'); sectionDiv.className = 'category-section'; sectionDiv.id = `cat-${category.id}`;
                 sectionDiv.innerHTML = `<h2 class="category-title">${category.category}</h2>`;
                 category.items.forEach(item => {
+                    // Nascondi tasto personalizza se è una bevanda
+                    let customBtn = category.id === 'bevande' ? '' : `<button class="btn-custom" onclick="openCustomModal(${item.id})"><i class="fa-solid fa-pen"></i> Personalizza</button>`;
+                    
                     sectionDiv.innerHTML += `
                         <div class="menu-item">
-                            <div class="item-main-content">
-                                <div class="item-image-container"><img src="${item.image}" alt="${item.name}" class="item-image" onerror="this.onerror=null; this.src='https://placehold.co/200/3e2723/ffc107?text=FOTO';"></div>
-                                <div class="item-text-content">
-                                    <div class="item-name">${item.name}</div>
-                                    <div class="item-price">${item.price.toFixed(2).replace('.',',')}€</div>
-                                    <p class="item-desc">${item.desc}</p>
+                            <div class="item-header">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-price">${item.price.toFixed(2).replace('.',',')}€</div>
+                            </div>
+                            <p class="item-desc">${item.desc}</p>
+                            <div class="controls">
+                                ${customBtn}
+                                <div style="flex-grow: 1;"></div>
+                                <div class="qty-box">
+                                    <button class="btn-control" onclick="handleRemoveClick('${item.id}')"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="qty" id="qty-${item.id}">0</span>
+                                    <button class="btn-control" onclick="handleAddClick('${item.id}')"><i class="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="controls">
-                                <button class="btn-control" onclick="updateQty(${item.id}, -1)"><i class="fa-solid fa-minus"></i></button>
-                                <span class="qty" id="qty-${item.id}">0</span>
-                                <button class="btn-control" onclick="updateQty(${item.id}, 1)"><i class="fa-solid fa-plus"></i></button>
-                            </div>
+                            <div id="variants-${item.id}"></div>
                         </div>`;
                 });
                 container.appendChild(sectionDiv);
             });
         }
 
+        // --- GESTIONE CARRELLO E QUANTITA' ---
+        function handleAddClick(id) {
+            updateQty(id, 1);
+        }
+
+        function handleRemoveClick(id) {
+            let baseCount = cart[id] || 0;
+            let variantsInCart = Object.keys(cart).filter(k => k.startsWith('c_' + id + '_') && cart[k] > 0);
+            
+            if (variantsInCart.length === 1 && baseCount === 0) {
+                updateQty(variantsInCart[0], -1);
+            } else if (variantsInCart.length > 0 || baseCount > 0) {
+                if (variantsInCart.length === 0) {
+                    updateQty(id, -1);
+                } else {
+                    alert("Hai versioni personalizzate nel carrello. Usa i tasti '-' delle singole voci per rimuoverle.");
+                }
+            }
+        }
+
         function updateQty(itemId, change) {
-            if (!cart[itemId]) cart[itemId] = 0; cart[itemId] += change; if (cart[itemId] < 0) cart[itemId] = 0;
-            document.getElementById(`qty-${itemId}`).innerText = cart[itemId]; updateCartUI();
+            if (!cart[itemId]) cart[itemId] = 0; 
+            cart[itemId] += change; 
+            if (cart[itemId] < 0) cart[itemId] = 0;
+            
+            if (itemMap[itemId] && itemMap[itemId].isCustom) {
+                if (cart[itemId] <= 0) document.getElementById(`variant-${itemId}`).style.display = 'none';
+                else document.getElementById(`variant-${itemId}`).style.display = 'block';
+                
+                let qtySpan = document.getElementById(`qty-${itemId}`);
+                if(qtySpan) qtySpan.innerText = cart[itemId];
+                
+                updateBaseItemQty(itemMap[itemId].baseId);
+            } else {
+                let qtySpan = document.getElementById(`qty-${itemId}`);
+                if(qtySpan) qtySpan.innerText = cart[itemId];
+                updateBaseItemQty(itemId);
+            }
+            updateCartUI();
+        }
+
+        function updateBaseItemQty(baseId) {
+            let total = cart[baseId] || 0;
+            for(let id in cart) {
+                if(cart[id] > 0 && itemMap[id] && itemMap[id].isCustom && itemMap[id].baseId == baseId) {
+                    total += cart[id];
+                }
+            }
+            let baseQtySpan = document.getElementById(`qty-${baseId}`);
+            if(baseQtySpan) baseQtySpan.innerText = total;
         }
 
         function updateCartUI() {
             let total = 0, totalItems = 0;
-            menuData.forEach(category => category.items.forEach(item => {
-                if (cart[item.id]) { total += item.price * cart[item.id]; totalItems += cart[item.id]; }
-            }));
+            for(let id in cart) {
+                if (cart[id] > 0 && itemMap[id]) {
+                    total += itemMap[id].price * cart[id]; 
+                    totalItems += cart[id];
+                }
+            }
             document.getElementById('total-price').innerText = total.toFixed(2).replace('.',',') + ' €';
             const footer = document.getElementById('cart-footer');
             if (totalItems > 0) footer.classList.add('visible'); else footer.classList.remove('visible');
         }
 
-        function openCheckout() { 
-            // Mostra sempre il form dati cliente all'apertura
+        // --- PERSONALIZZAZIONE RIMOZIONE INGREDIENTI ---
+        function openCustomModal(id) {
+            currentCustomItemId = id;
+            const item = itemMap[id];
+            document.getElementById('custom-title').innerText = item.name;
+            
+            const container = document.getElementById('custom-dynamic-sections');
+            let html = '';
+
+            if(item.desc && item.desc.trim() !== "") {
+                let removable = item.desc.split(/ e |,| con /i).map(s => s.trim()).filter(s => s.length > 2);
+                removable.forEach(ing => {
+                    html += `
+                        <label class="custom-option-card">
+                            <div class="custom-option-left">
+                                <input type="checkbox" value="${ing}" class="custom-remove-chk"> 
+                                Senza ${ing}
+                            </div>
+                        </label>
+                    `;
+                });
+            } else {
+                html = `<div style="color:var(--text-muted); font-size:0.9rem; text-align:center;">Nessun ingrediente modificabile.</div>`;
+            }
+            
+            container.innerHTML = html;
+            document.getElementById('custom-modal').classList.add('active');
+        }
+
+        function closeCustomModal() {
+            document.getElementById('custom-modal').classList.remove('active');
+            currentCustomItemId = null;
+        }
+
+        function addCustomItemToCart() {
+            if(!currentCustomItemId) return;
+            const baseItem = itemMap[currentCustomItemId];
+            let removals = [];
+
+            const removeChks = document.querySelectorAll('.custom-remove-chk:checked');
+            removeChks.forEach(chk => removals.push(chk.value));
+            
+            if (removals.length === 0) {
+                updateQty(currentCustomItemId, 1);
+                closeCustomModal();
+                return;
+            }
+
+            let signature = `${currentCustomItemId}|R:${removals.sort().join('-')}`;
+            let hash = 0; 
+            for (let i = 0; i < signature.length; i++) hash = Math.imul(31, hash) + signature.charCodeAt(i) | 0;
+            let customId = "c_" + currentCustomItemId + "_" + Math.abs(hash);
+
+            if (!itemMap[customId]) {
+                itemMap[customId] = { id: customId, baseId: currentCustomItemId, name: baseItem.name, price: baseItem.price, isCustom: true, removed: removals };
+                
+                let variantHtml = `
+                    <div class="variant-item" id="variant-${customId}">
+                        <div class="variant-header">
+                            <span>Versione Personalizzata</span>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <button class="btn-control" style="width:26px;height:26px;" onclick="updateQty('${customId}', -1)"><i class="fa-solid fa-minus" style="font-size:0.8rem;"></i></button>
+                                <span class="qty" style="font-size:1rem; min-width:20px; color:var(--text-cream);" id="qty-${customId}">0</span>
+                                <button class="btn-control" style="width:26px;height:26px;" onclick="updateQty('${customId}', 1)"><i class="fa-solid fa-plus" style="font-size:0.8rem;"></i></button>
+                            </div>
+                        </div>
+                        <div class="variant-desc">
+                            <span style="color:var(--accent-gold);">- Senza ${removals.join(', ')}</span>
+                        </div>
+                    </div>
+                `;
+                document.getElementById(`variants-${currentCustomItemId}`).insertAdjacentHTML('beforeend', variantHtml);
+            }
+
+            updateQty(customId, 1);
+            closeCustomModal();
+        }
+
+        // --- RECAP E LOGICA UPSELL GOLOSO ---
+        function openRecap() {
+            const recapContainer = document.getElementById('recap-list-container');
+            recapContainer.innerHTML = '';
+            
+            // 1. Inserisci gli items nel riepilogo
+            for(let id in cart) {
+                if (cart[id] > 0 && itemMap[id]) {
+                    let item = itemMap[id];
+                    let lineTotal = item.price * cart[id];
+                    let customTesto = item.isCustom && item.removed.length > 0 ? `<br><small style="color:var(--text-muted);">- Senza ${item.removed.join(', ')}</small>` : "";
+                    
+                    recapContainer.innerHTML += `
+                        <div class="recap-item">
+                            <div class="recap-item-info"><strong>${cart[id]}x</strong> ${item.name} ${customTesto}</div>
+                            <div style="color:var(--accent-gold); font-weight:700;">${lineTotal.toFixed(2).replace('.',',')}€</div>
+                        </div>
+                    `;
+                }
+            }
+
+            // 2. Genera Upsell (Logica Bevande intelligente)
+            const upsellContainer = document.getElementById('upsell-container');
+            upsellContainer.innerHTML = '';
+            
+            let idsInCart = Object.keys(cart).filter(k => cart[k] > 0).map(k => itemMap[k] ? (itemMap[k].baseId || itemMap[k].id) : null);
+            let hasDrink = idsInCart.some(id => itemMap[id] && itemMap[id].categoryId === 'bevande');
+
+            let allBaseItems = [];
+            menuData.forEach(cat => cat.items.forEach(i => allBaseItems.push(i)));
+            
+            let availableUpsells = allBaseItems.filter(i => !idsInCart.includes(i.id));
+            let selectedUpsells = [];
+
+            // Se non c'è una bevanda nel carrello, la prima proposta è una bevanda a caso
+            if (!hasDrink) {
+                let drinks = availableUpsells.filter(i => i.categoryId === 'bevande');
+                if (drinks.length > 0) {
+                    drinks.sort(() => 0.5 - Math.random());
+                    selectedUpsells.push(drinks[0]);
+                }
+            }
+
+            // Aggiungi dolci a caso finché non arriviamo a 3 consigli totali
+            let nonDrinks = availableUpsells.filter(i => i.categoryId !== 'bevande' && !selectedUpsells.includes(i));
+            nonDrinks.sort(() => 0.5 - Math.random());
+
+            while (selectedUpsells.length < 3 && nonDrinks.length > 0) {
+                selectedUpsells.push(nonDrinks.pop());
+            }
+            
+            // Stampa le card dell'Upsell
+            selectedUpsells.forEach(item => {
+                upsellContainer.innerHTML += `
+                    <div class="upsell-card">
+                        <h4>${item.name}</h4>
+                        <p>${item.price.toFixed(2).replace('.',',')}€</p>
+                        <button class="btn-upsell" onclick="updateQty(${item.id}, 1); openRecap();"><i class="fa-solid fa-plus"></i> Aggiungi</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('recap-modal').classList.add('active');
+        }
+
+        function closeRecap() {
+            document.getElementById('recap-modal').classList.remove('active');
+        }
+
+        function proceedToCheckout() {
+            closeRecap();
+            popolaOrari();
             document.getElementById('dati-cliente-form').style.display = 'block';
             document.getElementById('sumup-card-container').style.display = 'none';
             document.getElementById('checkout-modal').classList.add('active'); 
         }
-        function closeCheckout() { document.getElementById('checkout-modal').classList.remove('active'); }
-// INVIO A SUMUP E SALVATAGGIO IN MEMORIA
+
+        function closeCheckout() { 
+            document.getElementById('checkout-modal').classList.remove('active'); 
+        }
+
+        // --- GESTIONE ORARI (Solo da ora in poi, ogni 15 min) ---
+        function popolaOrari() {
+            const select = document.getElementById('orario-consegna');
+            select.innerHTML = '';
+            
+            let now = new Date();
+            // Aggiungiamo 15 minuti di tolleranza base per la preparazione
+            now.setMinutes(now.getMinutes() + 15);
+            
+            let h = now.getHours();
+            let m = now.getMinutes();
+            
+            // Arrotonda al prossimo slot di 15 minuti
+            let remainder = m % 15;
+            if (remainder !== 0) {
+                m = m + (15 - remainder);
+            }
+            if (m >= 60) { m -= 60; h++; }
+
+            let slotAggiunti = 0;
+            // Genera slot per le prossime 3 ore
+            for(let i=0; i<12; i++) {
+                if (h > 23) break; 
+                
+                let hh = String(h).padStart(2, '0');
+                let mm = String(m).padStart(2, '0');
+                
+                select.innerHTML += `<option value="${hh}:${mm}">${hh}:${mm}</option>`;
+                slotAggiunti++;
+                
+                m += 15;
+                if (m >= 60) { m -= 60; h++; }
+            }
+
+            if (slotAggiunti === 0) {
+                select.innerHTML = `<option value="">Locale chiuso</option>`;
+                document.getElementById('pay-btn').disabled = true;
+            }
+        }
+
+        // --- INVIO A SUMUP (PAGA.JS) ---
         async function sendOrderWithDetails() {
             const name = document.getElementById('cust-name').value.trim();
-			const orario = document.getElementById('orario-consegna').value; // Recupera l'orario
+            const orario = document.getElementById('orario-consegna').value;
             const notes = document.getElementById('cust-notes').value.trim();
 
-            if(!name) { alert("Compila Nome per la consegna!"); return; }
+            if(!name) { alert("Compila il Nome per il ritiro!"); return; }
+            if(!orario) { alert("Seleziona un orario valido."); return; }
 
-            // GENERATORE CODICE ORDINE UNIVOCO
             const cleanName = name.replace(/\s+/g, '').toUpperCase(); 
             const firstLetter = cleanName.charAt(0) || 'P';
             const lastLetter = cleanName.charAt(cleanName.length - 1) || 'B';
-            const randomNum = Math.floor(10000 + Math.random() * 90000);
-            const orderId = `PB-${firstLetter}${lastLetter}-${randomNum}`;
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            const orderId = `PB-${firstLetter}${lastLetter}-${randomNum}_${orario}`;
 
             let cartItems = []; let total = 0; 
-            let text = `*NUOVO ORDINE!* 🍩%0A🆔 *Rif:* ${orderId}%0A%0A👤 *Cliente:* ${name}%0A📍 *Orario:* ${orario}%0A`;
+            let text = `*NUOVO ORDINE!* 🍩%0A🆔 *Rif:* ${orderId}%0A%0A👤 *Cliente:* ${name}%0A🕒 *Ritiro in negozio alle:* ${orario}%0A`;
             if(notes) text += `📝 *Note:* ${notes}%0A`; 
             text += `%0A*RIEPILOGO ORDINE:*%0A`;
 
-            menuData.forEach(category => category.items.forEach(item => {
-                if (cart[item.id] > 0) {
-                    cartItems.push({ name: item.name, price: item.price, qty: cart[item.id] });
-                    const lineTotal = item.price * cart[item.id]; total += lineTotal;
-                    text += `▫️ ${cart[item.id]}x ${item.name} (${lineTotal.toFixed(2)}€)%0A`;
+            for(let id in cart) {
+                if (cart[id] > 0 && itemMap[id]) {
+                    let item = itemMap[id];
+                    cartItems.push({ name: item.name, price: item.price, qty: cart[id] });
+                    const lineTotal = item.price * cart[id]; 
+                    total += lineTotal;
+                    
+                    let customTesto = item.isCustom && item.removed.length > 0 ? `%0A   ↳ Senza: ${item.removed.join(', ')}` : "";
+                    text += `▫️ ${cart[id]}x ${item.name} (${lineTotal.toFixed(2)}€)${customTesto}%0A`;
                 }
-            }));
-
-            // BLOCCO DI SICUREZZA SUMUP (Minimo 1 euro)
-            if (total < 1.00) {
-                alert("Attenzione: L'ordine minimo per pagare con SumUp è 1.00 €! Aggiungi altri prodotti.");
-                return;
             }
 
-            text += `%0A💰 *TOTALE PAGATO CON SUMUP: ${total.toFixed(2)} €*%0A`;
-			text += `⚠️ *Nota:* L'ordine sarà pronto in circa 10 minuti dall'invio di questo messaggio. Non siamo responsabili per prodotti consumati freddi in caso di ritardo nel ritiro.`;
+            if (total < 1.00) { alert("Attenzione: L'ordine minimo per SumUp è 1.00 €!"); return; }
+
+            text += `%0A💰 *TOTALE PAGATO (SumUp): ${total.toFixed(2)} €*%0A`;
             localStorage.setItem('peterbun_order_message', text);
 
             const btn = document.getElementById('pay-btn');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Collegamento SumUp...'; btn.disabled = true;
-
-            const WORKER_URL = "/paga";
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Collegamento SumUp...'; 
+            btn.disabled = true;
 
             try {
-                const response = await fetch(WORKER_URL, {
+                // Chiamata al tuo backend /paga per farti dare il token di SumUp
+                const response = await fetch("/paga", {
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ items: cartItems })
+                    body: JSON.stringify({ items: cartItems, orderId: orderId })
                 });
                 const data = await response.json();
                 
@@ -297,59 +703,39 @@
                     document.getElementById('dati-cliente-form').style.display = 'none';
                     document.getElementById('sumup-card-container').style.display = 'block';
                     
-                    // Avvia il widget SumUp con Apple Pay e Google Pay inclusi
                     SumUpCard.mount({
                         id: 'sumup-card',
                         checkoutId: data.checkoutId,
                         
-                        // 🟢 CONFIGURAZIONE GOOGLE PAY
-                        googlePay: {
-                            // Sostituisci questo con il VERO ID fornito da Google al cliente
-                            merchantId: 'INSERISCI_ID_GOOGLE_QUI', 
-                            merchantName: 'Peter Bun'
-                        },
-                        
-                        // 🍎 CONFIGURAZIONE APPLE PAY
-                        applePay: {
-                            merchantName: 'Peter Bun'
-                        },
+                        googlePay: { merchantId: 'INSERISCI_ID_GOOGLE_QUI', merchantName: 'Peter Bun' },
+                        applePay: { merchantName: 'Peter Bun' },
 
                         onResponse: function(type, body) {
-                            // 1. La transazione è andata a buon fine E i soldi sono stati prelevati
                             if (type === 'success' && body.status === 'PAID') {
                                 window.location.href = "successo.html";
                             } 
-                            // 2. La comunicazione è andata bene, MA la banca ha rifiutato la carta (es. zero fondi)
                             else if (type === 'success' && body.status === 'FAILED') {
-                                alert("Transazione negata dalla banca. Verifica il saldo o i dati della carta e riprova.");
+                                alert("Transazione negata dalla banca. Verifica i dati e riprova.");
                                 window.location.href = "errore.html";
                             } 
-                            // 3. Errori tecnici vari del sistema
                             else if (type === 'error' || type === 'fail' || type === 'declined') {
                                 alert("Errore durante il pagamento:\n" + JSON.stringify(body));
                                 window.location.href = "errore.html";
                             }
-                            // 4. Se type è 'sent', il codice lo ignora e lascia girare la rotellina in attesa
                         }
                     });
                 } else { 
-                    // ⚠️ LA MAGIA: QUESTO ALERT CI DIRA' LA VERITA' SULL'ERRORE! ⚠️
                     alert("ERRORE DI SUMUP:\n" + JSON.stringify(data, null, 2)); 
-                    btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Paga con SumUp'; 
+                    btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Paga Ora (SumUp)'; 
                     btn.disabled = false; 
                 }
             } catch (error) {
                 alert("Errore di connessione al server:\n" + error.message); 
-                btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Paga con SumUp'; 
+                btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Paga Ora (SumUp)'; 
                 btn.disabled = false;
             }
         }
-		window.addEventListener('load', () => {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        document.getElementById('orario-consegna').value = `${hours}:${minutes}`;
-		});
+
         window.onload = initApp;
     </script>
 </body>
